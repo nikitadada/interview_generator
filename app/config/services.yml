@@ -1,0 +1,11 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    App\AdminBundle\:
+        resource: '../../src/App/AdminBundle/*'
+        exclude: '../../src/App/AdminBundle/{Document}'

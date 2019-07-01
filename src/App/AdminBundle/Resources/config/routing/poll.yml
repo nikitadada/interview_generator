@@ -1,0 +1,9 @@
+admin_poll_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:Poll:list
+
+admin_poll_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:Poll:edit

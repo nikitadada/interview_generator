@@ -1,0 +1,47 @@
+{% macro menu_items(menu, level = 0) %}
+    {% set currentRoute = app.request.attributes.get('_route') %}
+
+    {% import _self as macro %}
+    {% for item in menu %}
+        {% set hasChildren = item.children is defined and item.children|length %}
+        {% set classes = [] %}
+        {% if item.active %}
+            {% set classes = classes|merge(['current-page', 'active']) %}
+        {% endif %}
+        {% if hasChildren %}
+            {% set activeTab = false %}
+            {% for child in item.children %}
+                {% set activeTab = item.active or child.test is defined and currentRoute matches child.test %}
+            {% endfor %}
+
+            {% if activeTab %}
+                {% set classes = classes|merge(['active']) %}
+            {% endif %}
+        {% endif %}
+
+        <li class="{{ classes|join(' ') }}">
+            {% spaceless %}
+                <a {% if not hasChildren %}href="{{ item.url }}"{% endif %}>
+                    {% if hasChildren %}<span class="fa fa-chevron-down"></span>{% endif %}
+                    {% if item.icon is defined %}
+                        <i class="{{ item.icon }}"></i>
+                    {% endif %}
+                    {{ item.title }}
+                    {% if item.badge is defined and item.badge.text is defined and item.badge.text %}
+                        <span data-url="{{ item.badge.url|default('') }}" class="pull-right badge {{ item.badge.class }}">{{ item.badge.text }}</span>
+                    {% endif %}
+                </a>
+                {% if hasChildren %}
+                    <ul class="nav child_menu" {% if item.active %}style="display: block;"{% endif %}>
+                        {{ macro.menu_items(item.children, level + 1) }}
+                    </ul>
+                {% endif %}
+            {% endspaceless %}
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+{% block menu %}
+    {% import _self as macro %}
+    {{ macro.menu_items(menu) }}
+{% endblock %}

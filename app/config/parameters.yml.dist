@@ -1,0 +1,3 @@
+parameters:
+    mongo_server: localhost
+    mongo_database: admin_panel
