@@ -6,3 +6,8 @@ admin_dashboard:
 _admin_poll:
     prefix: /poll
     resource: routing/poll.yml
+
+login:
+    path: /login
+    defaults:
+        _controller: AdminBundle:Security:login

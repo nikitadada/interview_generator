@@ -1,24 +1,31 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
 security:
-
-    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    encoders:
+        App\MainBundle\Document\User: sha512
     providers:
+        username_or_email:
+            id: 'App\AdminBundle\Security\UserProvider'
         in_memory:
             memory: ~
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
+            pattern:    ^/
+            host: "^(%base_host%)$"
             anonymous: ~
-            # activate different ways to authenticate
+            form_login:
+                login_path: login
+                check_path: login
+                csrf_token_generator: security.csrf.token_manager
+                remember_me: true
+            remember_me:
+                secret: "%secret%%secret%"
+                domain: ".%base_host%"
+                always_remember_me: true
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
-
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }
