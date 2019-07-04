@@ -1,31 +1,26 @@
 security:
     encoders:
-        App\MainBundle\Document\User: sha512
+        App\AdminBundle\Document\User: sha512
     providers:
         username_or_email:
             id: 'App\AdminBundle\Security\UserProvider'
-        in_memory:
-            memory: ~
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
         main:
-            pattern:    ^/
-            host: "^(%base_host%)$"
             anonymous: ~
+            logout: ~
             form_login:
                 login_path: login
                 check_path: login
-                csrf_token_generator: security.csrf.token_manager
+                default_target_path: admin_dashboard
                 remember_me: true
             remember_me:
                 secret: "%secret%%secret%"
                 domain: ".%base_host%"
                 always_remember_me: true
-
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(login|register|recover), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }

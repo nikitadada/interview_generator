@@ -4,7 +4,7 @@ imports:
     - { resource: services.yml }
 
 parameters:
-    locale: en
+    locale: ru
 
 framework:
     #esi: ~
@@ -40,13 +40,6 @@ doctrine_mongodb:
     document_managers:
         default:
             auto_mapping: true
-
-swiftmailer:
-    transport: '%mailer_transport%'
-    host: '%mailer_host%'
-    username: '%mailer_user%'
-    password: '%mailer_password%'
-    spool: { type: memory }
 
 sensio_framework_extra:
    router:

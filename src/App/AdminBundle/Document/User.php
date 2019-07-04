@@ -47,6 +47,11 @@ class User implements UserInterface, EquatableInterface, \Serializable, Advanced
     protected $plainPassword;
 
     /**
+     * @Mongo\Field(type="string")
+     */
+    protected $role;
+
+    /**
      * @Mongo\Field(type="collection")
      */
     protected $roles = [];

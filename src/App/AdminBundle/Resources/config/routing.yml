@@ -11,3 +11,13 @@ login:
     path: /login
     defaults:
         _controller: AdminBundle:Security:login
+
+login_check:
+    path: /login_check
+    defaults:
+        _controller: AdminBundle:Security:/loginCheck
+
+logout:
+    path: /logout
+    defaults:
+        _controller: AdminBundle:Security:logout
