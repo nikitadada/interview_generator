@@ -1,0 +1,234 @@
+{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block form %}
+    {{ form_start(form) }}
+    <div {{ block('widget_container_attributes') }}>
+        {{ form_errors(form) }}
+
+        {% for name, child in form %}
+            {% if name != 'submit' %}
+                {{- form_row(child) -}}
+            {% endif %}
+        {% endfor %}
+
+        <div class="ln_solid"></div>
+
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-2">
+                {% if 'submit' in form|keys %}
+                    {{ form_widget(form.submit) }}
+                {% else %}
+                    <button class="submit btn btn-primary"><i class="fa fa-save"></i> Сохранить</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block form_label -%}
+    {% spaceless %}
+        {% if label is same as(false) %}
+            <div class="{{ block('form_label_class') }}"></div>
+        {% else %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) %}
+
+            {% if not compound -%}
+                {% set label_attr = label_attr|merge({'for': id}) %}
+            {%- endif -%}
+            {% if required -%}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {%- endif -%}
+            {% if label is empty -%}
+                {%- if label_format is not empty -%}
+                    {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                    }) %}
+                {%- else -%}
+                    {% set label = name|humanize %}
+                {%- endif -%}
+            {%- endif -%}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+            {% if form.vars.required %}<span class="required">*</span>{% endif %}
+            </label>
+        {% endif %}
+    {% endspaceless %}
+{%- endblock form_label %}
+
+{% block form_label_class -%}
+    control-label col-md-2 col-sm-2 col-xs-12
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+    col-md-10 col-sm-10 col-xs-12
+{%- endblock form_group_class %}
+
+{% block form_row -%}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} bad{% endif %} form-field">
+        {{- form_label(form) -}}
+        <div class="{{ block('form_group_class') }}">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{%- endblock form_row %}
+
+{% block checkbox_row -%}
+    {% spaceless %}
+        <div class="form-group{% if not valid %} has-error{% endif %}">
+            <div class="{{ block('form_label_class') }}">{{ label }}</div>
+            {{- form_label(form) -}}
+            <div class="{{ block('form_group_class') }}">
+                <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+                {{ form_errors(form) }}
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#{{ id }}').bootstrapSwitch({
+                    onText: 'Да',
+                    offText: 'Нет'
+                });
+            });
+        </script>
+    {% endspaceless %}
+{%- endblock checkbox_row %}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        <div class="alert alert-danger">
+            <ul class="list-unstyled">
+                {%- for error in errors -%}
+                    <li>{{ error.message }}</li>
+                {%- endfor -%}
+            </ul>
+        </div>
+    {%- endif %}
+{%- endblock form_errors %}
+
+{% block suggest_widget %}
+    {% use '@SirianSuggest/Form/suggest.html.twig' %}
+    {{ block('suggest_widget_select2_v4') }}
+    <script>
+        (function () {
+            var options = $('#{{ id }}').data('suggest-options');
+            options.width = '100%';
+        }());
+    </script>
+{% endblock %}
+
+{% block date_range_widget %}
+    {{ form_widget(form) }}
+
+    <script type="text/javascript">
+        function toDate(dateStr) {
+            var parts = dateStr.split(".");
+            return new Date(parts[2] + '-' + parts[1] + '-' +parts[0]);
+        }
+
+        var period = '{{ value }}'.split(' - ');
+
+        $(document).ready(function () {
+            $('#{{ id }}').daterangepicker({
+                ranges: {
+                    'Сегодня': [moment(), moment()],
+                    'Вчера': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '7 дней': [moment().subtract(6, 'days'), moment()],
+                    '30 дней': [moment().subtract(29, 'days'), moment()],
+                    'Этот месяц': [moment().startOf('month'), moment().endOf('month')],
+                    'Прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'Этот год': [moment().startOf('year'), moment()],
+                    'Все время': [new Date('2016-12-01'), moment()]
+                },
+                alwaysShowCalendars: true,
+                locale: {
+                    format: 'DD.MM.YYYY',
+                    applyLabel: 'Применить',
+                    cancelLabel: 'Отмена',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Задать диапазон'
+                },
+                startDate: moment(toDate(period[0])),
+                endDate: moment(toDate(period[1]))
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' select2')|trim}) %}
+    {{ parent() }}
+
+    {% if multiple %}
+        <div id="{{ id }}-options" class="select-options">
+            {% for item in predefined|default([]) %}
+                <a href="#" data-select="{{ item.value }}">{{ item.title }}</a>
+            {% endfor %}
+            <a href="#" data-select="{% for g,choice in choices %}{{ choice.value }}{% if not loop.last %},{% endif %}{% endfor %}">Выбрать все</a>
+            <a href="#" data-select="">Убрать все</a>
+        </div>
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            $('#{{ id }}').select2({
+                allowClear: true,
+                placeholder: $('label[for={{ id }}]').length ? $('label[for={{ id }}]').val() : '',
+            });
+
+            {% if multiple %}
+            $('#{{ id }}-options').on('click', 'a', function (e) {
+
+                e.preventDefault();
+                var $input = $('#{{ id }}');
+                var $this = $(this);
+                var select = $this.attr('data-select');
+
+                var data = select ? select.split(',') : [];
+
+                if (e.shiftKey && data.length) {
+                    data = data.concat($input.val());
+                }
+                $input.val(data).trigger('change');
+            });
+            {% endif %}
+        });
+    </script>
+{% endblock %}
+
+{% block repeated_row %}
+    <div class="form-group{{ errors|length ? ' has-error' : '' }}" id="{{ id }}-form_group">
+        {{ form_label(form) }}
+        <div class="row">
+            <div class="col-xs-6">
+                {{ form_widget(form.first) }}
+                {{ form_errors(form.first) }}
+            </div>
+            <div class="col-xs-6">
+                {{ form_widget(form.second) }}
+                {{ form_errors(form.second) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block phone_widget %}
+    {% set attr=attr|merge({class: (attr.class|default('') ~ ' ')|trim, 'data-mask': '+7 (999) 999-9999'}) %}
+    {{ block('form_widget_simple') }}
+{% endblock phone_widget %}
+
+{% block textarea_widget %}
+    {% set attr = attr|merge({rows: 10}) %}
+    {{ parent() }}
+{% endblock textarea_widget %}
+
+{% block file_label %}{% endblock %}
+{% block file_errors %}{% endblock %}
+
+
+
+
+

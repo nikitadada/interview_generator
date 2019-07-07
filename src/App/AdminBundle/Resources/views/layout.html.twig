@@ -20,8 +20,10 @@
     <link href="{{ asset('markup/vendors/pnotify/dist/pnotify.nonblock.css') }}" rel="stylesheet">
     <link href="{{ asset('markup/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('markup/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-    <link href="{{ asset('markup/vendors/bootstrap-datepicker/bootstrap-datepicker.standalone.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('markup/plugins/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('markup/vendors/bootstrap-datepicker/bootstrap-datepicker.standalone.min.css') }}"
+          rel="stylesheet">
+    <link href="{{ asset('markup/plugins/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.min.css') }}"
+          rel="stylesheet">
 
     <link href="{{ asset('markup/build/css/custom.min.css') }}" rel="stylesheet">
 
@@ -45,7 +47,8 @@
                 <div class="left_col scroll-view">
                     {% block navbar_title %}
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="{{ path('admin_dashboard') }}" class="site_title"><i class="fa fa-paw"></i> <span>{{ app.request.host }}</span></a>
+                            <a href="{{ path('admin_dashboard') }}" class="site_title"><i class="fa fa-paw"></i>
+                                <span>{{ app.request.host }}</span></a>
                         </div>
                     {% endblock %}
 
@@ -83,12 +86,14 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                                   aria-expanded="false">
                                     {{ app.user.email|default }}
                                     <span class="fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                    <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out pull-right"></i> Выйти</a></li>
+                                    <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out pull-right"></i>
+                                            Выйти</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -103,37 +108,37 @@
             <!-- page content -->
             <div class="right_col" role="main">
 
-                {#{% if breadcrumbs|length %}#}
-                    {#<ol class="breadcrumb">#}
-                        {#<li>#}
-                            {#<a href="{{ path('index') }}"><i class="fa fa-home"></i></a>#}
-                        {#</li>#}
+                {% if breadcrumbs|length %}
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{{ path('admin_dashboard') }}"><i class="fa fa-home"></i></a>
+                        </li>
 
-                        {#{% for item in breadcrumbs %}#}
-                            {#<li>#}
-                                {#<a href="{{ item.url }}">#}
-                                    {#{{ item.title }}#}
-                                {#</a>#}
-                            {#</li>#}
-                        {#{% endfor %}#}
-                    {#</ol>#}
-                {#{% endif %}#}
+                        {% for item in breadcrumbs %}
+                            <li>
+                                <a href="{{ item.url }}">
+                                    {{ item.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
 
-                {#<div class="">#}
-                {% block page_title %}
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3>{% block heading %}{{ block('title') }}{% endblock %}</h3>
+                <div class="">
+                    {% block page_title %}
+                        <div class="page-title">
+                            <div class="title_left">
+                                <h3>{% block heading %}{{ block('title') }}{% endblock %}</h3>
+                            </div>
                         </div>
+
+                        <div class="clearfix"></div>
+                    {% endblock %}
+
+                    <div id="page-content">
+                        {% block content %}{% endblock %}
                     </div>
-
-                    <div class="clearfix"></div>
-                {% endblock %}
-
-                <div id="page-content">
-                    {% block content %}{% endblock %}
                 </div>
-                {#</div>#}
             </div>
             <!-- /page content -->
 

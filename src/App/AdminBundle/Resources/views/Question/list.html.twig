@@ -1,0 +1,92 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block title %}Банк вопросов{% endblock %}
+
+{% do breadcrumbs.append('Вопросы') %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Фильтры</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    {% form_theme form '@Admin/Form/filter_form_theme.html.twig' %}
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button"
+                                aria-expanded="false" aria-haspopup="true">Создать <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_question_new', {type: 'webmoney'}) }}"><i
+                                            class="fa fa-webmoney"></i> Webmoney</a></li>
+                            <li><a href="{{ path('admin_question_new', {type: 'non_cash'}) }}"><i
+                                            class="fa fa-bank"></i> Безналичный предоплата</a></li>
+                            <li><a href="{{ path('admin_question_new', {type: 'non_cash_post'}) }}"><i
+                                            class="fa fa-bank"></i> Безналичный постоплата</a></li>
+                            <li><a href="{{ path('admin_question_new', {type: 'cash'}) }}"><i class="fa fa-bank"></i>
+                                    Наличные</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="btn-group pull-right">
+                    </div>
+
+                    {% import '@Admin/Question/macro.html.twig' as questionMacro %}
+
+                    {% if pagination|length %}
+
+                        <table class="table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Заголовок</th>
+                                <th>Тип вопроса</th>
+                                <th>Создан</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in pagination %}
+                                <tr>
+                                    <td>
+                                        <a href="#" class="text-info">{{ item.id }}</a>
+                                    </td>
+                                    <td>
+                                        {{ item.title }}
+                                    </td>
+                                    <td>
+                                        {{ questionMacro.questionType(item.type) }}
+                                    </td>
+                                    <td>
+                                        {{ item.createdAt.format('Y-m-d H:i:s') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_question_edit', {id: item.id}) }}"
+                                           class="btn btn-primary btn-xs" data-toggle="tooltip" title="Редактировать">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {{ knp_pagination_render(pagination) }}
+                    {% else %}
+                        <div class="alert alert-warning">По вашему запросу ничего не найдено</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

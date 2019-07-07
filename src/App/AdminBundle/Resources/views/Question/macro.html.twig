@@ -1,0 +1,20 @@
+{% macro questionType(type) %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_SINGLE') %}
+        Одиночный выбор
+    {% endif %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_SINGLE_COMMENT') %}
+        Одиночный выбор с комментарием
+    {% endif %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_DETAILED') %}
+        Развернутый ответ
+    {% endif %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_MULTIPLE') %}
+        Множественный выбор
+    {% endif %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_MULTIPLE_COMMENT') %}
+        Множественный выбор с комментарием
+    {% endif %}
+    {% if type == constant('App\\AdminBundle\\Document\\Question::QUESTION_TYPE_TABLE') %}
+        Табличный со шкалой оценки
+    {% endif %}
+{% endmacro %}

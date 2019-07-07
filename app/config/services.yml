@@ -8,4 +8,4 @@ services:
 
     App\AdminBundle\:
         resource: '../../src/App/AdminBundle/*'
-        exclude: '../../src/App/AdminBundle/{Document}'
+        exclude: '../../src/App/AdminBundle/{Document,Form,Suggest}'

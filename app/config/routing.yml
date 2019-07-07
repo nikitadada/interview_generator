@@ -1,2 +1,6 @@
 admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
+
+_suggest:
+    resource: "@SirianSuggestBundle/Resources/config/routing.yml"
+    prefix:   /suggest

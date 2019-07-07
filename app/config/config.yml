@@ -44,3 +44,20 @@ doctrine_mongodb:
 sensio_framework_extra:
    router:
         annotations: false
+
+knp_paginator:
+    default_options:
+        sort_field_name: sortField
+        sort_direction_name: sortDirection
+
+sirian_suggest:
+    form_options:
+        widget: select2_v4
+        attr:
+            placeholder: "Поиск..."
+    odm:
+        question:
+            class: AdminBundle:Question
+            property: title
+            search:
+                title: ~
