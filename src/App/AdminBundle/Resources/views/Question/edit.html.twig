@@ -2,7 +2,7 @@
 
 {% block title %}{% if isNew %}Создание{% else %}Редактирование{% endif %} вопроса{% endblock %}
 
-{% do breadcrumbs.append('Вопросы', path('admin_poll_list')) %}
+{% do breadcrumbs.append('Вопросы', path('admin_question_list')) %}
 
 {% if isNew %}
     {% do breadcrumbs.append('Создание') %}

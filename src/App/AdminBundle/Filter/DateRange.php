@@ -16,7 +16,7 @@ class DateRange
 
     public function __construct()
     {
-        $this->from = new \DateTime();
+        $this->from = new \DateTime('2019-01-01');
         $this->to = new \DateTime();
     }
 
