@@ -19,10 +19,12 @@ class QuestionFilterType extends AbstractType
             ->add('dateRange', DateRangeType::class)
             ->add('title', SuggestType::class, [
                 'required' => false,
+                'label' => 'Заголовок',
                 'suggester' => 'question'
             ])->add('questionTag', SuggestType::class, [
                 'required' => false,
-                'suggester' => 'question_tag'
+                'suggester' => 'question_tag',
+                'label' => 'Тема',
             ]);
     }
 
