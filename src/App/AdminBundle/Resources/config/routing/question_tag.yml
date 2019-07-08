@@ -1,0 +1,14 @@
+admin_question_tag_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:QuestionTag:edit
+
+admin_question_tag_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:QuestionTag:new
+
+admin_question_tag_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:QuestionTag:list

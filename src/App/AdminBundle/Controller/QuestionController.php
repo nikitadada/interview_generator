@@ -2,7 +2,6 @@
 
 namespace App\AdminBundle\Controller;
 
-
 use App\AdminBundle\Document\Question;
 use App\AdminBundle\Filter\QuestionFilter;
 use App\AdminBundle\Form\Question\QuestionFilterType;

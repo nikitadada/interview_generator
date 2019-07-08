@@ -3,6 +3,7 @@
 namespace App\AdminBundle\Form\Question;
 
 use App\AdminBundle\Document\Question;
+use Sirian\SuggestBundle\Form\Type\SuggestType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +19,10 @@ class QuestionType extends AbstractType
     {
         $builder->add('title', TextType::class, [
             'label' => 'Заголовок',
+        ])->add('questionTag', SuggestType::class, [
+            'suggester' => 'question_tag',
+            'required' => false,
+            'label' => 'Тема вопроса',
         ])->add('countVariants', ChoiceType::class, [
             'label' => 'Количество вариантов ответа',
             'choices' => array_flip([

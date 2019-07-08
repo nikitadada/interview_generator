@@ -21,6 +21,10 @@ class QuestionRepository extends BaseRepository
             $this->textSearch($qb->field('title'), $filter->getTitle()->getTitle());
         }
 
+        if ($filter->getQuestionTag()) {
+            $qb->field('questionTag')->references($filter->getQuestionTag());
+        }
+
         return $qb;
     }
 }

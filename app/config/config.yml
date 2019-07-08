@@ -61,3 +61,8 @@ sirian_suggest:
             property: title
             search:
                 title: ~
+        question_tag:
+                    class: AdminBundle:QuestionTag
+                    property: name
+                    search:
+                        name: ~

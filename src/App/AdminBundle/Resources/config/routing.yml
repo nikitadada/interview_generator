@@ -11,6 +11,10 @@ _admin_question:
     prefix: /question
     resource: routing/question.yml
 
+_admin_question_tag:
+    prefix: /question_tag
+    resource: routing/question_tag.yml
+
 login:
     path: /login
     defaults:

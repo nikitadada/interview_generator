@@ -20,6 +20,9 @@ class QuestionFilterType extends AbstractType
             ->add('title', SuggestType::class, [
                 'required' => false,
                 'suggester' => 'question'
+            ])->add('questionTag', SuggestType::class, [
+                'required' => false,
+                'suggester' => 'question_tag'
             ]);
     }
 

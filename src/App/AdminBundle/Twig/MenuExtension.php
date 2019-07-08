@@ -28,6 +28,7 @@ class MenuExtension extends \Twig_Extension
             ['route' => 'admin_dashboard', 'title' =>  'Вопросы', 'test' => '/^admin_dashboard/', 'icon' => 'fa fa-bar-chart-o', 'children' => [
                 ['route' => 'admin_question_list', 'title' => 'Список', 'test' =>  '/^admin_question_list/', 'icon' => 'fa fa-list'],
                 ['route' => 'admin_question_new', 'title' => 'Добавить', 'test' =>  '/^admin_question_edit/', 'icon' => 'fa fa-user-plus'],
+                ['route' => 'admin_question_tag_list', 'title' => 'Темы вопросов', 'test' =>  '/^admin_question_tag_list/', 'icon' => 'fa fa-list'],
             ]],
             ['route' => 'admin_poll_list', 'title' => 'Статистика', 'icon' => 'fa fa-users', 'test' =>  '/^admin_poll_list_/'],
         ];

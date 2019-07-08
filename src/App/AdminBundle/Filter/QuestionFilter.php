@@ -11,6 +11,8 @@ class QuestionFilter
 
     private $title;
 
+    private $questionTag;
+
     public function __construct()
     {
         $this->dateRange = new DateRange();
@@ -40,5 +42,14 @@ class QuestionFilter
         return $this;
     }
 
+    public function getQuestionTag()
+    {
+        return $this->questionTag;
+    }
+
+    public function setQuestionTag($questionTag)
+    {
+        $this->questionTag = $questionTag;
+    }
 
 }

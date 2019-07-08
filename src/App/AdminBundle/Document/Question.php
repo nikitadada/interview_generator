@@ -51,6 +51,12 @@ class Question
      */
     private $createdAt;
 
+    /**
+     * @Mongo\ReferenceOne(targetDocument="QuestionTag", inversedBy="questions", storeAs="id")
+     * @var QuestionTag
+     */
+    private $questionTag;
+
 
     public function __construct()
     {
@@ -106,5 +112,14 @@ class Question
         $this->type = $type;
     }
 
+    public function getQuestionTag()
+    {
+        return $this->questionTag;
+    }
+
+    public function setQuestionTag($questionTag)
+    {
+        $this->questionTag = $questionTag;
+    }
 
 }
