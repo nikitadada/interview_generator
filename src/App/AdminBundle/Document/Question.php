@@ -57,6 +57,11 @@ class Question
      */
     private $questionTag;
 
+    /**
+     * @Mongo\Field(type="hash")
+     */
+    private $answers;
+
 
     public function __construct()
     {
@@ -120,6 +125,16 @@ class Question
     public function setQuestionTag($questionTag)
     {
         $this->questionTag = $questionTag;
+    }
+
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+
+    public function setAnswers($answers)
+    {
+        $this->answers = $answers;
     }
 
 }

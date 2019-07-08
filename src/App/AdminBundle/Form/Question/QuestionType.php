@@ -42,7 +42,6 @@ class QuestionType extends AbstractType
         ])->add('type', ChoiceType::class, [
             'label' => 'Тип вопроса',
             'choices' => array_flip(Question::TYPES),
-//            'mapped' => false,
             'disabled' => true,
         ]);
 
@@ -52,8 +51,14 @@ class QuestionType extends AbstractType
                 $form->add('type', ChoiceType::class, [
                     'label' => 'Тип вопроса',
                     'choices' => array_flip(Question::TYPES),
-//                    'mapped' => false,
                 ]);
+
+                for ($i = 1; $i <= intval($question); $i++) {
+                    $form->add('answer_' . $i, TextType::class, [
+                        'label' => 'Вариант ответа_' . $i,
+                        'mapped' => false,
+                    ]);
+                }
             }
 
         };
@@ -83,5 +88,6 @@ class QuestionType extends AbstractType
             'data_class' => Question::class,
             'isNew' => false,
         ]);
+        $resolver->setDefault('allow_extra_fields', true);
     }
 }

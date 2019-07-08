@@ -64,6 +64,18 @@ class QuestionController extends BaseController
 
 
         if ($this->isValidForm($form)) {
+            $countVariants = $form->get('countVariants')->getData();
+
+            if ($countVariants > 0) {
+                $answers = [];
+
+                for ($i = 1; $i <= $countVariants; $i++) {
+                    $answers[] = $form->get('answer_' . $i)->getData();
+                }
+
+                $question->setAnswers($answers);
+            }
+
 
             $dm = $this->container->getDocumentManager();
             $dm->persist($question);

@@ -40,6 +40,7 @@
                                 <th>Заголовок</th>
                                 <th>Тeма</th>
                                 <th>Тип вопроса</th>
+                                <th>Варианты ответов</th>
                                 <th>Создан</th>
                                 <th></th>
                             </tr>
@@ -60,6 +61,9 @@
                                     </td>
                                     <td>
                                         {{ questionMacro.questionType(item.type) }}
+                                    </td>
+                                    <td>
+                                        {{ item.answers|join(', ') }}
                                     </td>
                                     <td>
                                         {{ item.createdAt.format('Y-m-d H:i:s') }}
