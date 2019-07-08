@@ -54,7 +54,9 @@
                                         {{ item.title }}
                                     </td>
                                     <td>
-                                        {{ item.questionTag.name }}
+                                        {% if item.questionTag %}
+                                            {{ item.questionTag.name }}
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {{ questionMacro.questionType(item.type) }}
