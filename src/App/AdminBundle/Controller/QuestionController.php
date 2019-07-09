@@ -83,7 +83,7 @@ class QuestionController extends BaseController
 
             $this->addFlash('success', 'Вопрос успешно добавлен');
 
-            return $this->redirectToRoute('admin_question_edit', ['id' => $question->getId()]);
+            return $this->redirectToRoute('admin_question_list', ['id' => $question->getId()]);
 
         }
 

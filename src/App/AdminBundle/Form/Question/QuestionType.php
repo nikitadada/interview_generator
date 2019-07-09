@@ -17,6 +17,8 @@ class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $id = $builder->getData()->getId();
+
         $builder->add('title', TextType::class, [
             'label' => 'Заголовок',
         ])->add('questionTag', SuggestType::class, [
@@ -46,7 +48,7 @@ class QuestionType extends AbstractType
         ]);
 
 
-        $formModifier = function (FormInterface $form, $question = null) {
+        $formModifier = function (FormInterface $form, $question = null, $answers = null) {
             if ($question) {
                 $form->add('type', ChoiceType::class, [
                     'label' => 'Тип вопроса',
@@ -54,10 +56,12 @@ class QuestionType extends AbstractType
                 ]);
 
                 for ($i = 1; $i <= intval($question); $i++) {
-                    $form->add('answer_' . $i, TextType::class, [
-                        'label' => 'Вариант ответа_' . $i,
+                    $form->add('answer_'.$i, TextType::class, [
+                        'label' => 'Вариант ответа_'.$i,
                         'mapped' => false,
+                        'data' => is_null($answers) ? '' : $answers[$i - 1],
                     ]);
+
                 }
             }
 
@@ -68,7 +72,7 @@ class QuestionType extends AbstractType
             function (FormEvent $event) use ($formModifier) {
                 $data = $event->getData();
 
-                $formModifier($event->getForm(), $data->getCountVariants());
+                $formModifier($event->getForm(), $data->getCountVariants(), $data->getAnswers());
             }
         );
 
