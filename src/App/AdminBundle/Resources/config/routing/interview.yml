@@ -1,0 +1,14 @@
+admin_interview_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:Interview:list
+
+admin_interview_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:Interview:edit
+
+admin_interview_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:Interview:new

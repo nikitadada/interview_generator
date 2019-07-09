@@ -24,13 +24,16 @@ class MenuExtension extends \Twig_Extension
     {
         $menu = [
             ['route' => 'admin_dashboard', 'title' => 'Dashboard', 'icon' => 'fa fa-dashboard', 'test' =>  '/^admin_dashboard/'],
-            ['route' => 'admin_poll_list', 'title' => 'Опросы', 'icon' => 'fa fa-credit-card', 'test' =>  '/^admin_poll_list_/', 'badge' => ['class' => 'badge-danger', 'text' => 25]],
+            ['route' => 'admin_dashboard', 'title' =>  'Опросы', 'test' => '/^admin_dashboard/', 'icon' => 'fa fa-bar-chart-o', 'children' => [
+                ['route' => 'admin_interview_list', 'title' => 'Список', 'test' =>  '/^admin_interview_list/', 'icon' => 'fa fa-list'],
+                ['route' => 'admin_interview_new', 'title' => 'Добавить', 'test' =>  '/^admin_interview_edit/', 'icon' => 'fa fa-user-plus'],
+            ]],
             ['route' => 'admin_dashboard', 'title' =>  'Вопросы', 'test' => '/^admin_dashboard/', 'icon' => 'fa fa-bar-chart-o', 'children' => [
                 ['route' => 'admin_question_list', 'title' => 'Список', 'test' =>  '/^admin_question_list/', 'icon' => 'fa fa-list'],
                 ['route' => 'admin_question_new', 'title' => 'Добавить', 'test' =>  '/^admin_question_edit/', 'icon' => 'fa fa-user-plus'],
                 ['route' => 'admin_question_tag_list', 'title' => 'Темы вопросов', 'test' =>  '/^admin_question_tag_list/', 'icon' => 'fa fa-list'],
             ]],
-            ['route' => 'admin_poll_list', 'title' => 'Статистика', 'icon' => 'fa fa-users', 'test' =>  '/^admin_poll_list_/'],
+            ['route' => 'admin_interview_list', 'title' => 'Статистика', 'icon' => 'fa fa-users', 'test' =>  '/^admin_interview_list_/'],
         ];
 
         return $this->renderMenu($menu, '@Admin/Layout/menu.html.twig');

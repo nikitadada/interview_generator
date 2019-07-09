@@ -61,6 +61,11 @@ sirian_suggest:
             property: title
             search:
                 title: ~
+        interview:
+            class: AdminBundle:Interview
+            property: title
+            search:
+                title: ~
         question_tag:
                     class: AdminBundle:QuestionTag
                     property: name

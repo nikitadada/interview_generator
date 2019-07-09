@@ -5,6 +5,7 @@ namespace App\AdminBundle\Form\Question;
 use App\AdminBundle\Document\Question;
 use Sirian\SuggestBundle\Form\Type\SuggestType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,10 +18,12 @@ class QuestionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $id = $builder->getData()->getId();
-
         $builder->add('title', TextType::class, [
             'label' => 'Заголовок',
+        ])->add('required', CheckboxType::class, [
+            'label' => 'Обязательный',
+            'required' => false,
+            'data' => true,
         ])->add('questionTag', SuggestType::class, [
             'suggester' => 'question_tag',
             'required' => false,
@@ -56,8 +59,8 @@ class QuestionType extends AbstractType
                 ]);
 
                 for ($i = 1; $i <= intval($question); $i++) {
-                    $form->add('answer_'.$i, TextType::class, [
-                        'label' => 'Вариант ответа_'.$i,
+                    $form->add('answer_' . $i, TextType::class, [
+                        'label' => 'Вариант ответа_' . $i,
                         'mapped' => false,
                         'data' => is_null($answers) ? '' : $answers[$i - 1],
                     ]);

@@ -6,6 +6,6 @@ class DashboardController extends BaseController
 {
     public function indexAction()
     {
-        return $this->render('@Admin/Poll/list.html.twig');
+        return $this->render('@Admin/Interview/list.html.twig');
     }
 }

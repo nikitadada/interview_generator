@@ -62,6 +62,11 @@ class Question
      */
     private $answers;
 
+    /**
+     * @Mongo\Field(type="bool")
+     */
+    private $required;
+
 
     public function __construct()
     {
@@ -135,6 +140,16 @@ class Question
     public function setAnswers($answers)
     {
         $this->answers = $answers;
+    }
+
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    public function setRequired($required)
+    {
+        $this->required = $required;
     }
 
 }

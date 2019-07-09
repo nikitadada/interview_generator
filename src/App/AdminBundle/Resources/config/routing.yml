@@ -3,9 +3,9 @@ admin_dashboard:
     defaults:
         _controller: AdminBundle:Dashboard:index
 
-_admin_poll:
-    prefix: /poll
-    resource: routing/poll.yml
+_admin_interview:
+    prefix: /interview
+    resource: routing/interview.yml
 
 _admin_question:
     prefix: /question

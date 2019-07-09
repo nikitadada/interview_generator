@@ -78,7 +78,7 @@
 {% block checkbox_row -%}
     {% spaceless %}
         <div class="form-group{% if not valid %} has-error{% endif %}">
-            <div class="{{ block('form_label_class') }}">{{ label }}</div>
+            <div class="{{ block('form_label_class') }}"><b>{{ label }}</b></div>
             {{- form_label(form) -}}
             <div class="{{ block('form_group_class') }}">
                 <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
