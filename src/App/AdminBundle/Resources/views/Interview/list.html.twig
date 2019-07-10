@@ -50,9 +50,11 @@
                                         {{ item.title }}
                                     </td>
                                     <td>
-                                        {{ item.regions|slice(0,4)|join(', ') }}
-                                        {% if item.regions|length > 4 %}
-                                            {{ '...' }}
+                                        {% if item.regions %}
+                                            {{ item.regions|slice(0,4)|join(', ') }}
+                                            {% if item.regions|length > 4 %}
+                                                {{ '...' }}
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td>
