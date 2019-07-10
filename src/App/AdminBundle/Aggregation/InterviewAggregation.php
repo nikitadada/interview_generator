@@ -116,8 +116,10 @@ class InterviewAggregation
 
         foreach ($this->items as &$item) {
             $item['createdAt'] = $item['createdAt']->toDatetime();
-            foreach ($item['regions'] as $key => $value) {
-                $item['regions'][$key] = $regionNames[$value]['name'];
+            if (array_key_exists('regions', $item)) {
+                foreach ($item['regions'] as $key => $value) {
+                    $item['regions'][$key] = $regionNames[$value]['name'];
+                }
             }
         }
 
@@ -125,6 +127,6 @@ class InterviewAggregation
 
     protected function textSearch(Builder $builder, $text)
     {
-        $builder->equals(new \MongoRegex('/' . preg_quote($text) . '/i'));
+        $builder->equals(new \MongoRegex('/'.preg_quote($text).'/i'));
     }
 }
