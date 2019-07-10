@@ -115,7 +115,7 @@ class InterviewAggregation
 
         $this->items = $this
             ->collection
-            ->aggregate($this->pipeline)->toArray();
+            ->aggregate([$this->pipeline], ['cursor' => array('batchSize' => 0)])->toArray();
 
 
         $regionNames = $this
