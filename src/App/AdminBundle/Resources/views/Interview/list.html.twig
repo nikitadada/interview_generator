@@ -50,7 +50,7 @@
                                         {{ item.title }}
                                     </td>
                                     <td>
-                                        {% if item.regions %}
+                                        {% if item.regions is defined %}
                                             {{ item.regions|slice(0,4)|join(', ') }}
                                             {% if item.regions|length > 4 %}
                                                 {{ '...' }}
