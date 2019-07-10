@@ -31,6 +31,11 @@ class Interview
      */
     private $regions = [];
 
+    /**
+     * @Mongo\ReferenceMany(targetDocument="Question", storeAs="id")
+     */
+    private $questions = [];
+
 
     public function __construct()
     {
@@ -76,6 +81,16 @@ class Interview
     public function setRegions($regions)
     {
         $this->regions = $regions;
+    }
+
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    public function setQuestions($questions)
+    {
+        $this->questions = $questions;
     }
 
 

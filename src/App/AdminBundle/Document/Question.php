@@ -73,6 +73,11 @@ class Question
         $this->createdAt = new \DateTime();
     }
 
+    function __toString()
+    {
+        return $this->getTitle();
+    }
+
     public function getId()
     {
         return $this->id;
