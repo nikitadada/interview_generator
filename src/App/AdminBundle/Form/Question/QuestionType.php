@@ -24,6 +24,7 @@ class QuestionType extends AbstractType
             'label' => 'Обязательный',
             'required' => false,
             'data' => true,
+
         ])->add('questionTag', SuggestType::class, [
             'suggester' => 'question_tag',
             'required' => false,
@@ -59,8 +60,8 @@ class QuestionType extends AbstractType
                 ]);
 
                 for ($i = 1; $i <= intval($question); $i++) {
-                    $form->add('answer_' . $i, TextType::class, [
-                        'label' => 'Вариант ответа_' . $i,
+                    $form->add('answer_'.$i, TextType::class, [
+                        'label' => 'Вариант ответа_'.$i,
                         'mapped' => false,
                         'data' => is_null($answers) ? '' : $answers[$i - 1],
                     ]);

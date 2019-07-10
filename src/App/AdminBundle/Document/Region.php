@@ -5,9 +5,9 @@ namespace App\AdminBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
 
 /**
- * @Mongo\Document(collection="interviews", repositoryClass="App\AdminBundle\Document\Repository\InterviewRepository")
+ * @Mongo\Document(collection="regions")
  */
-class Interview
+class Region
 {
     /**
      * @Mongo\Id(strategy="INCREMENT")
@@ -17,7 +17,7 @@ class Interview
     /**
      * @Mongo\Field(type="string")
      */
-    private $title;
+    private $name;
 
     /**
      * @var \DateTime
@@ -25,31 +25,25 @@ class Interview
      */
     private $createdAt;
 
-    /**
-     * @Mongo\Field(type="collection")
-     */
-    private $regions = [];
-
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
 
-
     public function getId()
     {
         return $this->id;
     }
 
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
     }
 
     public function getCreatedAt()
@@ -60,16 +54,6 @@ class Interview
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    }
-
-    public function getRegions()
-    {
-        return $this->regions;
-    }
-
-    public function setRegions($regions)
-    {
-        $this->regions = $regions;
     }
 
 

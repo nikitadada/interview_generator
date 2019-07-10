@@ -1,0 +1,14 @@
+admin_region_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:Region:edit
+
+admin_region_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:Region:new
+
+admin_region_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:Region:list

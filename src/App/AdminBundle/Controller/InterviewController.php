@@ -58,6 +58,7 @@ class InterviewController extends BaseController
 
         $form = $this->createForm($questionFormClass, $interview, [
             'isNew' => $isNew,
+            'documentManager' => $this->container->getDocumentManager(),
         ]);
 
         $form->handleRequest($request);

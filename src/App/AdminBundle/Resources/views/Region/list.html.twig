@@ -1,0 +1,66 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block title %}Регионы{% endblock %}
+
+{% do breadcrumbs.append('Регионы') %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <a href='{{ path('admin_region_new') }}'><button class="submit btn btn-primary" name="save">Создать</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </button>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="btn-group">
+                    </div>
+                    <div class="btn-group pull-right">
+                    </div>
+                    {% if items|length %}
+                        <table class="table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Название</th>
+                                <th>Создан</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <a href="#" class="text-info">{{ item.id }}</a>
+                                    </td>
+                                    <td>
+                                        {{ item.name }}
+                                    </td>
+                                    <td>
+                                        {{ item.createdAt.format('Y-m-d H:i:s') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_region_edit', {id: item.id}) }}"
+                                           class="btn btn-primary btn-xs" data-toggle="tooltip" title="Редактировать">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-warning">По вашему запросу ничего не найдено</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
