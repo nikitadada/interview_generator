@@ -4,8 +4,8 @@ namespace App\AdminBundle\Form\Interview;
 
 use App\AdminBundle\Document\Interview;
 use App\AdminBundle\Document\Region;
+use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,21 +14,13 @@ class InterviewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $dm = $options['documentManager'];
-
-        $regions = $dm->getRepository(Region::class)->findAll();
-
-        $choices = array_map(function (Region $region) {
-            return $region->getName();
-        }, $regions);
-
         $builder->add('title', TextType::class, [
             'label' => 'Название',
-        ])->add('regions', ChoiceType::class, [
+        ])->add('regions', DocumentType::class, [
+            'class' => Region::class,
             'label' => 'Регионы',
             'required' => true,
             'multiple' => true,
-            'choices' => array_flip($choices),
         ]);
     }
 
@@ -37,7 +29,6 @@ class InterviewType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Interview::class,
             'isNew' => false,
-            'documentManager' => null,
         ]);
     }
 }

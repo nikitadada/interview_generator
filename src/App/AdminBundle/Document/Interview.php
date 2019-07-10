@@ -2,6 +2,7 @@
 
 namespace App\AdminBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
 
 /**
@@ -26,7 +27,7 @@ class Interview
     private $createdAt;
 
     /**
-     * @Mongo\Field(type="collection")
+     * @Mongo\ReferenceMany(targetDocument="Region", storeAs="id")
      */
     private $regions = [];
 
@@ -34,8 +35,13 @@ class Interview
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->regions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 
     public function getId()
     {

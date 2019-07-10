@@ -7,9 +7,11 @@ class InterviewFilter
     /**
      * @var DateRange
      */
-    protected $dateRange;
+    private $dateRange;
 
     private $title;
+
+    private $regions;
 
 
     public function __construct()
@@ -41,5 +43,14 @@ class InterviewFilter
         return $this;
     }
 
+    public function getRegions()
+    {
+        return $this->regions;
+    }
+
+    public function setRegions($regions)
+    {
+        $this->regions = $regions;
+    }
 
 }

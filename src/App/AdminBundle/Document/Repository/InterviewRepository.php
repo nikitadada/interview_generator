@@ -17,6 +17,10 @@ class InterviewRepository extends BaseRepository
                 ->lte($filter->getDateRange()->getTo()->setTime(23, 59, 59));
         }
 
+        if ($filter->getRegions()) {
+            $qb->field('regions')->in($filter->getRegions());
+        }
+
         if ($filter->getTitle()) {
             $this->textSearch($qb->field('title'), $filter->getTitle()->getTitle());
         }

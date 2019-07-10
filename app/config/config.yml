@@ -66,6 +66,11 @@ sirian_suggest:
             property: title
             search:
                 title: ~
+        regions:
+            class: AdminBundle:Region
+            property: name
+            search:
+                name: ~
         question_tag:
                     class: AdminBundle:QuestionTag
                     property: name
