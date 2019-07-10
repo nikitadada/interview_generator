@@ -2,14 +2,11 @@
 
 namespace App\AdminBundle\Form\Interview;
 
-use App\AdminBundle\Document\Region;
 use App\AdminBundle\Filter\InterviewFilter;
 use App\AdminBundle\Form\FilterType;
 use App\AdminBundle\Form\DateRangeType;
-use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Sirian\SuggestBundle\Form\Type\SuggestType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

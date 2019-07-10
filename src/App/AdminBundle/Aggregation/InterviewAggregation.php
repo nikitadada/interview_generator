@@ -5,6 +5,7 @@ namespace App\AdminBundle\Aggregation;
 use App\AdminBundle\Document\Interview;
 use App\AdminBundle\Document\Region;
 use App\AdminBundle\Filter\InterviewFilter;
+use Doctrine\MongoDB\Query\Builder;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 class InterviewAggregation
@@ -24,7 +25,6 @@ class InterviewAggregation
      */
     private $dm;
 
-    private $pipeline;
     private $initialized = false;
     private $items = [];
     private $totalCount;
@@ -79,44 +79,35 @@ class InterviewAggregation
 
         $filter = $this->filter;
 
-        $match = [];
-        if ($filter->getTitle()) {
-            $match['title'] = $filter->getTitle()->getTitle();
+        $qb = $this->dm->getRepository(Interview::class)->createQueryBuilder();
+        $qb->hydrate(false);
+
+        if ($filter->getDateRange()) {
+            $qb
+                ->field('createdAt')
+                ->gte($filter->getDateRange()->getFrom()->setTime(0, 0, 0))
+                ->lte($filter->getDateRange()->getTo()->setTime(23, 59, 59));
         }
 
         if ($filter->getRegions()) {
             $ids = array_map(function ($r) {
                 return $r->getId();
             }, $filter->getRegions());
-            $match['regions'] = ['$in' => $ids];
+            $qb->field('regions')->in($ids);
         }
 
-        if ($filter->getDateRange()) {
-            $match['createdAt'] = [
-                '$gte' => new \MongoDate($filter->getDateRange()->getFrom()->setTime(0, 0, 0)->getTimestamp()),
-                '$lte' => new \MongoDate($filter->getDateRange()->getTo()->setTime(23, 59, 59)->getTimestamp()),
-            ];
+        if ($filter->getTitle()) {
+            $this->textSearch($qb->field('title'), $filter->getTitle()->getTitle());
         }
-
-        $match = (object)$match;
-
-        $this->pipeline = [
-            ['$match' => $match],
-        ];
-
-        $this->pipeline[] = ['$sort' => [$this->sortField => $this->sortDirection]];
 
         if ($this->offset) {
-            $this->pipeline[] = ['$skip' => $this->offset];
+            $qb->skip($this->offset);
         }
         if ($this->limit) {
-            $this->pipeline[] = ['$limit' => $this->limit];
+            $qb->limit($this->limit);
         }
 
-        $this->items = $this
-            ->collection
-            ->aggregate([$this->pipeline], ['cursor' => array('batchSize' => 0)])->toArray();
-
+        $this->items = $qb->getQuery()->execute()->toArray();
 
         $regionNames = $this
             ->dm
@@ -129,5 +120,11 @@ class InterviewAggregation
                 $item['regions'][$key] = $regionNames[$value]['name'];
             }
         }
+
+    }
+
+    protected function textSearch(Builder $builder, $text)
+    {
+        $builder->equals(new \MongoRegex('/' . preg_quote($text) . '/i'));
     }
 }

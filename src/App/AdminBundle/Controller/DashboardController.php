@@ -2,7 +2,7 @@
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Document\Interview;
+use App\AdminBundle\Aggregation\InterviewAggregation;
 use App\AdminBundle\Filter\InterviewFilter;
 use App\AdminBundle\Form\Interview\InterviewFilterType;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +16,20 @@ class DashboardController extends BaseController
         $form = $this->createFilterForm(InterviewFilterType::class, $filter);
         $form->handleRequest($request);
 
-        $dm = $this->container->getDocumentManager();
-        $qb = $dm->getRepository(Interview::class)->createFilteredQueryBuilder($filter);
+        $limit = 50;
+        $page = +$request->query->get('page', 1);
 
-        $pagination = $this->paginate($qb);
+        $aggregation = new InterviewAggregation(
+            $this->container->getDocumentManager(),
+            $filter,
+            $request->query->get('sort', '_id'),
+            $request->query->get('direction', 'DESC'),
+            $limit,
+            ($page - 1) * $limit
+        );
+
+        $pagination = $this->paginate([], $limit);
+        $pagination->setItems($aggregation->getItems());
 
         return $this->render('@Admin/Interview/list.html.twig', [
             'form' => $form->createView(),
