@@ -17,6 +17,8 @@ class InterviewType extends AbstractType
     {
         $builder->add('title', TextType::class, [
             'label' => 'Название',
+        ])->add('hash', TextType::class, [
+            'label' => 'Токен (отображается в ссылке)',
         ])->add('regions', DocumentType::class, [
             'class' => Region::class,
             'label' => 'Регионы',
