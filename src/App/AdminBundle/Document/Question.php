@@ -3,9 +3,12 @@
 namespace App\AdminBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @Mongo\Document(collection="questions", repositoryClass="App\AdminBundle\Document\Repository\QuestionRepository")
+ * @ExclusionPolicy("all")
  */
 class Question
 {
@@ -27,21 +30,25 @@ class Question
 
     /**
      * @Mongo\Id(strategy="INCREMENT")
+     * @Expose
      */
     private $id;
 
     /**
      * @Mongo\Field(type="string")
+     * @Expose
      */
     private $title;
 
     /**
      * @Mongo\Field(type="string")
+     * @Expose
      */
     private $type;
 
     /**
      * @Mongo\Field(type="string")
+     * @Expose
      */
     private $countVariants;
 
@@ -54,16 +61,19 @@ class Question
     /**
      * @Mongo\ReferenceOne(targetDocument="QuestionTag", inversedBy="questions", storeAs="id")
      * @var QuestionTag
+     * @Expose
      */
     private $questionTag;
 
     /**
      * @Mongo\Field(type="hash")
+     * @Expose
      */
     private $answers;
 
     /**
      * @Mongo\Field(type="bool")
+     * @Expose
      */
     private $required;
 

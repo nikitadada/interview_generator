@@ -7,7 +7,9 @@ use App\AdminBundle\Document\Interview;
 use App\AdminBundle\Filter\InterviewFilter;
 use App\AdminBundle\Form\Interview\InterviewFilterType;
 use App\AdminBundle\Form\Interview\InterviewType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InterviewController extends BaseController
@@ -91,6 +93,27 @@ class InterviewController extends BaseController
             'question' => $interview,
             'isNew' => $isNew,
         ]);
+    }
+
+    public function getInterviewAction($hash)
+    {
+        $dm = $this->container->getDocumentManager();
+        $interview = $dm->getRepository(Interview::class)->findOneBy([
+            'hash' => $hash,
+        ]);
+
+        $serializer = $this->get('jms_serializer');
+
+        $result = $serializer->serialize($interview, 'json');
+
+        $response = new Response($result);
+        $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+
+        if (!$interview) {
+            $response->setStatusCode(404);
+        }
+
+        return $response;
     }
 
 }

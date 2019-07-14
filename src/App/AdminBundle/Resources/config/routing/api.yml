@@ -1,0 +1,4 @@
+api_interview:
+    path: /interview/{hash}
+    defaults:
+        _controller: AdminBundle:Interview:getInterview

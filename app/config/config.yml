@@ -50,6 +50,11 @@ knp_paginator:
         sort_field_name: sortField
         sort_direction_name: sortDirection
 
+jms_serializer:
+    visitors:
+        json:
+            options: [JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE]
+
 sirian_suggest:
     form_options:
         widget: select2_v4

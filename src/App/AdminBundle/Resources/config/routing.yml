@@ -33,3 +33,7 @@ logout:
     path: /logout
     defaults:
         _controller: AdminBundle:Security:logout
+
+_api_interview:
+    prefix: /api
+    resource: routing/api.yml
