@@ -3,19 +3,24 @@
 namespace App\AdminBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
 
 /**
  * @Mongo\Document(collection="question_tags")
+ * @ExclusionPolicy("all")
  */
 class QuestionTag
 {
     /**
      * @Mongo\Id(strategy="INCREMENT")
+     * @Expose
      */
     private $id;
 
     /**
      * @Mongo\Field(type="string")
+     * @Expose
      */
     private $name;
 
