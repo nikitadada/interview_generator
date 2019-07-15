@@ -104,6 +104,15 @@ class InterviewController extends BaseController
 
         $serializer = $this->get('jms_serializer');
 
+        $answers = [];
+        foreach ($interview->getQuestions() as $q) {
+            foreach ($q->getAnswers() as $k => $v) {
+
+                $answers[] = ['id' => $k, 'value' => $v];
+            }
+            $q->setAnswers($answers);
+        }
+
         $result = $serializer->serialize($interview, 'json');
 
         $response = new Response($result);
