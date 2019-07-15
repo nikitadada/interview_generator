@@ -111,6 +111,7 @@ class InterviewController extends BaseController
                 $answers[] = ['id' => $k, 'value' => $v];
             }
             $q->setAnswers($answers);
+            $answers = [];
         }
 
         $result = $serializer->serialize($interview, 'json');
