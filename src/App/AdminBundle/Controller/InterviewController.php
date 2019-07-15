@@ -108,7 +108,6 @@ class InterviewController extends BaseController
 
         $response = new Response($result);
         $response->headers->set('Content-Type', 'application/json; charset=utf-8');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
 
         if (!$interview) {
             $response->setStatusCode(404);
