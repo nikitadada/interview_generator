@@ -22,5 +22,5 @@ security:
                 domain: ".%base_host%"
                 always_remember_me: true
     access_control:
-        - { path: ^/(login|register|recover|api|form|suggest-form), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(login|register|recover|api|question/internal), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }
