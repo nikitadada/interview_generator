@@ -21,20 +21,10 @@ class InterviewController extends BaseController
         $form = $this->createFilterForm(InterviewFilterType::class, $filter);
         $form->handleRequest($request);
 
-        $limit = 50;
-        $page = +$request->query->get('page', 1);
+        $dm = $this->container->getDocumentManager();
+        $qb = $dm->getRepository(Interview::class)->createFilteredQueryBuilder($filter);
 
-        $aggregation = new InterviewAggregation(
-            $this->container->getDocumentManager(),
-            $filter,
-            $request->query->get('sort', '_id'),
-            $request->query->get('direction', 'DESC'),
-            $limit,
-            ($page - 1) * $limit
-        );
-
-        $pagination = $this->paginate([], $limit);
-        $pagination->setItems($aggregation->getItems());
+        $pagination = $this->paginate($qb);
 
         return $this->render('@Admin/Interview/list.html.twig', [
             'form' => $form->createView(),
@@ -68,7 +58,6 @@ class InterviewController extends BaseController
 
         $questionFormClass = InterviewType::class;
 
-
         $form = $this->createForm($questionFormClass, $interview, [
             'isNew' => $isNew,
         ]);
@@ -81,16 +70,23 @@ class InterviewController extends BaseController
             $dm->persist($interview);
             $dm->flush();
 
-            $this->addFlash('success', 'Опрос успешно добавлен');
+            if ($isNew) {
+                $this->addFlash('success', 'Опрос успешно добавлен');
+                $template = 'admin_interview_edit';
+            } else {
+                $this->addFlash('success', 'Опрос успешно обновлен');
+                $template = 'admin_interview_list';
+            }
 
-            return $this->redirectToRoute('admin_interview_list', ['id' => $interview->getId()]);
+            return $this->redirectToRoute($template, ['id' => $interview->getId()]);
 
         }
 
+        $template = $isNew ? '@Admin/Interview/new.html.twig' : '@Admin/Interview/edit.html.twig';
 
-        return $this->render('@Admin/Interview/edit.html.twig', [
+        return $this->render($template, [
             'form' => $form->createView(),
-            'question' => $interview,
+            'interview' => $interview,
             'isNew' => $isNew,
         ]);
     }
@@ -107,7 +103,6 @@ class InterviewController extends BaseController
         $answers = [];
         foreach ($interview->getQuestions() as $q) {
             foreach ($q->getAnswers() as $k => $v) {
-
                 $answers[] = ['id' => $k, 'value' => $v];
             }
             $q->setAnswers($answers);

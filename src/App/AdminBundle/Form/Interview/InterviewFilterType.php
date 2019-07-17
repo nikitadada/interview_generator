@@ -15,7 +15,9 @@ class InterviewFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateRange', DateRangeType::class)
+            ->add('dateRange', DateRangeType::class, [
+                'label' => 'Дата создания',
+            ])
             ->add('title', SuggestType::class, [
                 'required' => false,
                 'label' => 'Название',

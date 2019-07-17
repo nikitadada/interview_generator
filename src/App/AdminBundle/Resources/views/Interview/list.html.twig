@@ -44,15 +44,15 @@
                             {% for item in pagination %}
                                 <tr>
                                     <td>
-                                        <a href="#" class="text-info">{{ item._id }}</a>
+                                        <a href="#" class="text-info">{{ item.id }}</a>
                                     </td>
                                     <td>
                                         {{ item.title }}
                                     </td>
                                     <td>
                                         {% if item.regions is defined %}
-                                            {{ item.regions|slice(0,4)|join(', ') }}
-                                            {% if item.regions|length > 4 %}
+                                            {{ item.regions|slice(0,2)|join(', ') }}
+                                            {% if item.regions|length > 2 %}
                                                 {{ '...' }}
                                             {% endif %}
                                         {% endif %}
@@ -61,7 +61,7 @@
                                         {{ item.createdAt.format('Y-m-d H:i:s') }}
                                     </td>
                                     <td>
-                                        <a href="{{ path('admin_interview_edit', {id: item._id}) }}"
+                                        <a href="{{ path('admin_interview_edit', {id: item.id}) }}"
                                            class="btn btn-primary btn-xs" data-toggle="tooltip" title="Редактировать">
                                             <i class="fa fa-pencil"></i>
                                         </a>

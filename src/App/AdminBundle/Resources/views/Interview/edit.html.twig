@@ -1,14 +1,10 @@
 {% extends '@Admin/layout.html.twig' %}
 
-{% block title %}{% if isNew %}Создание{% else %}Редактирование{% endif %} опроса{% endblock %}
+{% block title %}Редактирование опроса{% endblock %}
 
 {% do breadcrumbs.append('Опросы', path('admin_interview_list')) %}
 
-{% if isNew %}
-    {% do breadcrumbs.append('Создание') %}
-{% else %}
-    {% do breadcrumbs.append('Редактирование') %}
-{% endif %}
+{% do breadcrumbs.append('Редактирование') %}
 
 {% form_theme form '@Admin/Form/theme.html.twig' _self %}
 
@@ -20,8 +16,178 @@
                     {{ form(form) }}
                 </div>
             </div>
+
         </div>
     </div>
+
+
+    <h2>Вопросы (общие)</h2>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="btn-group">
+                    </div>
+                    <div class="btn-group pull-right">
+                    </div>
+
+                    {% import '@Admin/Question/macro.html.twig' as questionMacro %}
+
+                    {% if interview.questions|length %}
+
+                        <table class="table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Заголовок</th>
+                                <th>Тeма</th>
+                                <th>Тип вопроса</th>
+                                <th>Варианты ответов</th>
+                                <th>Создан</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in interview.questions %}
+                                <tr>
+                                    <td>
+                                        <a href="#" class="text-info">{{ item.id }}</a>
+                                    </td>
+                                    <td>
+                                        {{ item.title }}
+                                    </td>
+                                    <td>
+                                        {% if item.questionTag %}
+                                            {{ item.questionTag.name }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ questionMacro.questionType(item.type) }}
+                                    </td>
+                                    <td>
+                                        {{ item.answers|join(', ') }}
+                                    </td>
+                                    <td>
+                                        {{ item.createdAt.format('Y-m-d H:i:s') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_question_edit', {id: item.id}) }}"
+                                           class="btn btn-primary btn-xs" data-toggle="tooltip" title="Редактировать">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-warning">По вашему запросу ничего не найдено</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <h2>Добавление вопросов</h2>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="form-group form-field">
+                        <select multiple class="form-control" id="regions-select">
+                            {% for region in interview.regions %}
+                                <option value="{{ region.id }}">{{ region.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <button class="submit btn btn-primary" onclick="getQuestionForm()"><i
+                                    class="fa fa-plus"></i> Добавить новый
+                        </button>
+                        <button class="submit btn btn-primary" onclick="getQuestionSuggest()"><i
+                                    class="fa fa-plus"></i> Добавить из банка
+                        </button>
+                        <div class="form-wrapper col-md-12 col-sm-10 col-xs-12">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getQuestionForm() {
+            $.ajax({
+                url: "/question/form",
+                method: 'GET',
+                data: {},
+            })
+                .done(function (data) {
+                    $('.form-wrapper').html($(data).find('form'));
+
+                    var $countVariants = $('#question_countVariants');
+                    $countVariants.change(function () {
+                        var $form = $(this).parent().closest('form');
+                        $form.attr('action', "{{ '/question/' ~ interview.id ~ '/add' }}");
+
+                        var data = {};
+                        data[$countVariants.attr('name')] = $countVariants.val();
+                        $.ajax({
+                            url: '/question/new',
+                            type: $form.attr('method'),
+                            data: data,
+                            success: function (html) {
+                                $('#question_type').parent().html(
+                                    $(html).find('#question_type').parent().html()
+                                );
+
+                                if ($(html).find('#question_answer_1').length === 1) {
+                                    for (var j = 1; j <= 10; j++) {
+                                        $('#question_answer_' + j).parent().parent().remove();
+                                    }
+                                }
+
+                                var n = $countVariants.val();
+
+                                for (var i = 1; i <= n; i++) {
+                                    $('#question_type').parent().parent().append(
+                                        $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
+                                    );
+                                }
+
+                            }
+                        });
+                    });
+                })
+                .fail(function () {
+                    console.log('error');
+                })
+        }
+
+        function getQuestionSuggest() {
+            $.ajax({
+                url: "/question/suggest-form",
+                method: 'GET',
+                data: {},
+            })
+                .done(function (data) {
+                    console.log($(data).find('form'));
+                    $('.form-wrapper').html($(data).find('form'));
+
+                    var $form = $('.form-wrapper').find('form').closest('form');
+                    $form.attr('action', "{{ '/question/' ~ interview.id ~ '/add-from-bank' }}");
+                })
+                .fail(function () {
+                    console.log('error');
+                })
+        }
+    </script>
+
 {% endblock %}
 
 {% block form %}

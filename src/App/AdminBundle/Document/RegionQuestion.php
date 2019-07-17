@@ -10,12 +10,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as Mongo;
 class RegionQuestion
 {
     /**
-     * @Mongo\EmbedOne(targetDocument="Region")
+     * @Mongo\ReferenceOne(targetDocument="Region")
      */
     private $region = 2;
 
     /**
-     * @Mongo\EmbedMany(targetDocument="Question")
+     * @Mongo\ReferenceMany(targetDocument="Question")
      */
     private $questions = [];
 

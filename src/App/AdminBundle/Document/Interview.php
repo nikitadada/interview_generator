@@ -50,19 +50,19 @@ class Interview
     private $to;
 
     /**
-     * @Mongo\ReferenceMany(targetDocument="Region", storeAs="id")
+     * @Mongo\ReferenceMany(targetDocument="Region")
      * @Expose
      */
     private $regions = [];
 
     /**
-     * @Mongo\EmbedMany(targetDocument="Question")
+     * @Mongo\ReferenceMany(targetDocument="Question")
      * @Expose
      */
     private $questions = [];
 
     /**
-     * @Mongo\EmbedMany(targetDocument="RegionQuestion")
+     * @Mongo\ReferenceMany(targetDocument="RegionQuestion")
      * @Expose
      */
     private $regionQuestions = [];

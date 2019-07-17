@@ -3,7 +3,6 @@
 namespace App\AdminBundle\Form\Interview;
 
 use App\AdminBundle\Document\Interview;
-use App\AdminBundle\Document\Question;
 use App\AdminBundle\Document\Region;
 use Doctrine\Bundle\MongoDBBundle\Form\Type\DocumentType;
 use Symfony\Component\Form\AbstractType;
@@ -22,11 +21,6 @@ class InterviewType extends AbstractType
         ])->add('regions', DocumentType::class, [
             'class' => Region::class,
             'label' => 'Регионы',
-            'required' => true,
-            'multiple' => true,
-        ])->add('questions', DocumentType::class, [
-            'class' => Question::class,
-            'label' => 'Вопросы',
             'required' => true,
             'multiple' => true,
         ]);
