@@ -25,6 +25,14 @@ class InterviewRepository extends BaseRepository
             $qb->field('regions.$id')->in($ids);
         }
 
+        if ($filter->getLegalEntities()) {
+            $ids = array_map(function ($r) {
+                return $r->getId();
+            }, $filter->getLegalEntities());
+
+            $qb->field('legalEntities.$id')->in($ids);
+        }
+
         if ($filter->getTitle()) {
             $this->textSearch($qb->field('title'), $filter->getTitle()->getTitle());
         }
