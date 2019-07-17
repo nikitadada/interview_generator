@@ -14,21 +14,21 @@ admin_question_list:
         _controller: AdminBundle:Question:list
 
 admin_question_form:
-    path: /form
+    path: /internal/form
     defaults:
         _controller: AdminBundle:Question:form
 
 admin_question_suggest_form:
-    path: /suggest-form
+    path: /internal/suggest-form
     defaults:
         _controller: AdminBundle:Question:suggestForm
 
 admin_question_add_to_interview:
-    path: /{id}/add
+    path: /internal/{id}/add
     defaults:
         _controller: AdminBundle:Question:addToInterview
 
 admin_question_add_to_interview_from_bank:
-    path: /{id}/add-from-bank
+    path: /internal/{id}/add-from-bank
     defaults:
         _controller: AdminBundle:Question:addToInterviewFromBank

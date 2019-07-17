@@ -123,7 +123,7 @@
     <script>
         function getQuestionForm() {
             $.ajax({
-                url: "/question/form",
+                url: "/question/internal/form",
                 method: 'GET',
                 data: {},
             })
@@ -133,7 +133,7 @@
                     var $countVariants = $('#question_countVariants');
                     $countVariants.change(function () {
                         var $form = $(this).parent().closest('form');
-                        $form.attr('action', "{{ '/question/' ~ interview.id ~ '/add' }}");
+                        $form.attr('action', "{{ '/question/internal/' ~ interview.id ~ '/add' }}");
 
                         var data = {};
                         data[$countVariants.attr('name')] = $countVariants.val();
@@ -171,7 +171,7 @@
 
         function getQuestionSuggest() {
             $.ajax({
-                url: "/question/suggest-form",
+                url: "/question/internal/suggest-form",
                 method: 'GET',
                 data: {},
             })
@@ -180,7 +180,7 @@
                     $('.form-wrapper').html($(data).find('form'));
 
                     var $form = $('.form-wrapper').find('form').closest('form');
-                    $form.attr('action', "{{ '/question/' ~ interview.id ~ '/add-from-bank' }}");
+                    $form.attr('action', "{{ '/question/internal/' ~ interview.id ~ '/add-from-bank' }}");
                 })
                 .fail(function () {
                     console.log('error');
