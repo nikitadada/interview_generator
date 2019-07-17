@@ -138,31 +138,31 @@
 
                         var data = {};
                         data[$countVariants.attr('name')] = $countVariants.val();
-//                        $.ajax({
-//                            url: '/question/new',
-//                            type: $form.attr('method'),
-//                            data: data,
-//                            success: function (html) {
-//                                $('#question_type').parent().html(
-//                                    $(html).find('#question_type').parent().html()
-//                                );
-//
-//                                if ($(html).find('#question_answer_1').length === 1) {
-//                                    for (var j = 1; j <= 10; j++) {
-//                                        $('#question_answer_' + j).parent().parent().remove();
-//                                    }
-//                                }
-//
-//                                var n = $countVariants.val();
-//
-//                                for (var i = 1; i <= n; i++) {
-//                                    $('#question_type').parent().parent().append(
-//                                        $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
-//                                    );
-//                                }
-//
-//                            }
-//                        });
+                        $.ajax({
+                            url: '/question/new',
+                            type: $form.attr('method'),
+                            data: data,
+                            success: function (html) {
+                                $('#question_type').parent().html(
+                                    $(html).find('#question_type').parent().html()
+                                );
+
+                                if ($(html).find('#question_answer_1').length === 1) {
+                                    for (var j = 1; j <= 10; j++) {
+                                        $('#question_answer_' + j).parent().parent().remove();
+                                    }
+                                }
+
+                                var n = $countVariants.val();
+
+                                for (var i = 1; i <= n; i++) {
+                                    $('#question_type').parent().parent().append(
+                                        $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
+                                    );
+                                }
+
+                            }
+                        });
                     });
                 })
                 .fail(function () {
