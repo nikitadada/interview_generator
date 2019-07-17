@@ -1,0 +1,49 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block title %}{% if isNew %}Создание{% else %}Редактирование{% endif %} юр. лица{% endblock %}
+
+{% do breadcrumbs.append('Юридические лица', path('admin_legal_entity_list')) %}
+
+{% if isNew %}
+    {% do breadcrumbs.append('Создание') %}
+{% else %}
+    {% do breadcrumbs.append('Редактирование') %}
+{% endif %}
+
+{% form_theme form '@Admin/Form/theme.html.twig' _self %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block form %}
+    {% set transaction = form.vars.data %}
+    {{ form_start(form) }}
+    <div {{ block('widget_container_attributes') }}>
+        {{ form_errors(form) }}
+        {% for name, child in form %}
+            {% if name != 'submit' %}
+                {{- form_row(child) -}}
+            {% endif %}
+        {% endfor %}
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-2">
+                {% if 'submit' in form|keys %}
+                    {{ form_widget(form.submit) }}
+                {% else %}
+                    <button class="submit btn btn-primary" name="save"><i class="fa fa-save"></i> Сохранить</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

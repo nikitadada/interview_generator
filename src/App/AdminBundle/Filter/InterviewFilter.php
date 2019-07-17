@@ -13,6 +13,8 @@ class InterviewFilter
 
     private $regions;
 
+    private $legalEntities;
+
 
     public function __construct()
     {
@@ -52,5 +54,16 @@ class InterviewFilter
     {
         $this->regions = $regions;
     }
+
+    public function getLegalEntities()
+    {
+        return $this->legalEntities;
+    }
+
+    public function setLegalEntities($legalEntities)
+    {
+        $this->legalEntities = $legalEntities;
+    }
+
 
 }

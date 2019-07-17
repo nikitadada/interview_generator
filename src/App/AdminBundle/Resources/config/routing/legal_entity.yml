@@ -1,0 +1,14 @@
+admin_legal_entity_edit:
+    path: /{id}/edit
+    defaults:
+        _controller: AdminBundle:LegalEntity:edit
+
+admin_legal_entity_new:
+    path: /new
+    defaults:
+        _controller: AdminBundle:LegalEntity:new
+
+admin_legal_entity_list:
+    path: /list
+    defaults:
+        _controller: AdminBundle:LegalEntity:list

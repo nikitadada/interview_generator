@@ -56,6 +56,12 @@ class Interview
     private $regions = [];
 
     /**
+     * @Mongo\ReferenceMany(targetDocument="LegalEntity")
+     * @Expose
+     */
+    private $legalEntities = [];
+
+    /**
      * @Mongo\ReferenceMany(targetDocument="Question")
      * @Expose
      */
@@ -178,6 +184,16 @@ class Interview
     public function setDateRange($dateRange)
     {
         $this->dateRange = $dateRange;
+    }
+
+    public function getLegalEntities()
+    {
+        return $this->legalEntities;
+    }
+
+    public function setLegalEntities($legalEntities)
+    {
+        $this->legalEntities = $legalEntities;
     }
 
 

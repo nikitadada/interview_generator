@@ -33,6 +33,7 @@ class MenuExtension extends \Twig_Extension
                 ['route' => 'admin_question_tag_list', 'title' => 'Темы вопросов', 'test' =>  '/^admin_question_tag_list/', 'icon' => 'fa fa-list'],
             ]],
             ['route' => 'admin_region_list', 'title' => 'Регионы', 'icon' => 'fa fa-dashboard', 'test' =>  '/^admin_region_list/'],
+            ['route' => 'admin_legal_entity_list', 'title' => 'Юридические лица', 'icon' => 'fa fa-dashboard', 'test' =>  '/^admin_legal_entity_list/'],
             ['route' => 'admin_interview_list', 'title' => 'Статистика', 'icon' => 'fa fa-users', 'test' =>  '/^admin_interview_list_/'],
         ];
 

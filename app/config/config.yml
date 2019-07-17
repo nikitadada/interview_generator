@@ -76,11 +76,16 @@ sirian_suggest:
             property: name
             search:
                 name: ~
+        legal_entities:
+            class: AdminBundle:LegalEntity
+            property: name
+            search:
+                name: ~
         question_tag:
-                    class: AdminBundle:QuestionTag
-                    property: name
-                    search:
-                        name: ~
+            class: AdminBundle:QuestionTag
+            property: name
+            search:
+                name: ~
 
 nelmio_cors:
     defaults:

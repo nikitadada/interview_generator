@@ -27,6 +27,11 @@ class InterviewFilterType extends AbstractType
                 'label' => 'Регионы',
                 'multiple' => true,
                 'suggester' => 'regions',
+            ])->add('legalEntities', SuggestType::class, [
+                'required' => false,
+                'label' => 'Юридические лица',
+                'multiple' => true,
+                'suggester' => 'legal_entities',
             ]);
     }
 

@@ -76,6 +76,9 @@ class QuestionController extends BaseController
     public function addToInterviewFromBankAction(Request $request)
     {
         $id = $request->get('id');
+        $regions = $request->get('regions');
+        $regions = explode("-", $regions);
+
 
         $dm = $this->container->getDocumentManager();
         $interview = $dm->getRepository(Interview::class)->find($id);
@@ -134,7 +137,7 @@ class QuestionController extends BaseController
                 $answers = [];
 
                 for ($i = 1; $i <= $countVariants; $i++) {
-                    $answers[] = $form->get('answer_'.$i)->getData();
+                    $answers[] = $form->get('answer_' . $i)->getData();
                 }
 
                 $question->setAnswers($answers);
