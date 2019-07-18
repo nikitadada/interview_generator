@@ -1,0 +1,84 @@
+{% extends '@Admin/layout.html.twig' %}
+
+{% block title %}Создание вопроса{% endblock %}
+
+{% do breadcrumbs.append('Вопросы', path('admin_question_list')) %}
+
+{% do breadcrumbs.append('Создание') %}
+
+
+{% form_theme form '@Admin/Form/theme.html.twig' _self %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block form %}
+    {% set transaction = form.vars.data %}
+    {{ form_start(form) }}
+    <div {{ block('widget_container_attributes') }}>
+        {{ form_errors(form) }}
+
+        {% for name, child in form %}
+            {% if name != 'submit' %}
+                {{- form_row(child) -}}
+            {% endif %}
+        {% endfor %}
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-md-offset-2">
+                {% if 'submit' in form|keys %}
+                    {{ form_widget(form.submit) }}
+                {% else %}
+                    <button class="submit btn btn-primary" name="save"><i class="fa fa-save"></i> Далее</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <script>
+        var $countVariants = $('#question_countVariants');
+        $countVariants.change(function () {
+            var $form = $(this).closest('form');
+            var data = {};
+            data[$countVariants.attr('name')] = $countVariants.val();
+            $.ajax({
+                url: $form.attr('action'),
+                type: $form.attr('method'),
+                data: data,
+                success: function (html) {
+                    $('#question_type').parent().html(
+                        $(html).find('#question_type').parent().html()
+                    );
+
+
+                    if($(html).find('#question_answer_1').length === 1) {
+                        for (var j = 1; j <= 10; j++) {
+                            $('#question_answer_' + j).parent().parent().remove();
+                        }
+
+                    }
+
+                    var n = $countVariants.val();
+
+                    for (var i = 1; i <= n; i++) {
+                        $('#question_type').parent().parent().append(
+                            $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
+                        );
+                    }
+
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

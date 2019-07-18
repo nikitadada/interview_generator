@@ -1,14 +1,11 @@
 {% extends '@Admin/layout.html.twig' %}
 
-{% block title %}{% if isNew %}Создание{% else %}Редактирование{% endif %} вопроса{% endblock %}
+{% block title %}Редактирование вопроса{% endblock %}
 
 {% do breadcrumbs.append('Вопросы', path('admin_question_list')) %}
 
-{% if isNew %}
-    {% do breadcrumbs.append('Создание') %}
-{% else %}
-    {% do breadcrumbs.append('Редактирование') %}
-{% endif %}
+
+{% do breadcrumbs.append('Редактирование') %}
 
 {% form_theme form '@Admin/Form/theme.html.twig' _self %}
 
@@ -22,6 +19,119 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <h2>Варианты ответов</h2>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="btn-group">
+                    </div>
+                    <div class="btn-group pull-right">
+                    </div>
+
+                    {% if question.answers|length %}
+
+                        <table class="table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Текст</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in question.answers %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index }}
+                                    </td>
+                                    <td>
+                                        {{ item }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-warning">Пока нет добавленных вариантов ответов</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <h2>Варианты ответов</h2>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="form-group form-field">
+                        {% if question.type == 'table' %}
+                            <select class="form-control" id="regions-select">
+                                <option value="1">Таблица 1</option>
+                            </select>
+                            <br>
+                        {% endif %}
+                        {% if question.type == 'table' %}
+                            {#<button class="submit btn btn-primary" onclick="getTableAnswers()"><i#}
+                                        {#class="fa fa-plus"></i> Добавить новый#}
+                            {#</button>#}
+                        {% else %}
+                            <button class="submit btn btn-primary" onclick="getAnswersForm()"><i
+                                        class="fa fa-plus"></i> Добавить новый
+                            </button>
+                        {% endif %}
+
+                        <div class="form-wrapper col-md-12 col-sm-10 col-xs-12">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getAnswersForm() {
+            $.ajax({
+                url: '/answers/form',
+                method: 'GET',
+                data: {},
+                success: function (html) {
+                    console.log($(html).find('form'));
+                    $('.form-wrapper').html($(html).find('form'));
+                    var $form = $('.form-wrapper').find('form').closest('form');
+
+                    $form.attr('action', "{{ '/answers/add/' ~ question.id }}");
+
+                }
+            });
+        }
+
+        function getTableAnswers() {
+            $.ajax({
+                url: "/answers/table-form",
+                method: 'GET',
+                data: {},
+            })
+                .done(function (data) {
+                    console.log($(html).find('form'));
+                    $('.form-wrapper').html($(data).find('form'));
+                    var $form = $('.form-wrapper').find('form').closest('form');
+
+                    {#$form.attr('action', "{{ '/answers-table/add/' ~ question.id }}");#}
+                })
+                .fail(function () {
+                })
+        }
+    </script>
 {% endblock %}
 
 {% block form %}
@@ -29,7 +139,6 @@
     {{ form_start(form) }}
     <div {{ block('widget_container_attributes') }}>
         {{ form_errors(form) }}
-
         {% for name, child in form %}
             {% if name != 'submit' %}
                 {{- form_row(child) -}}
@@ -47,41 +156,5 @@
         </div>
     </div>
     {{ form_end(form) }}
-
-    <script>
-        var $countVariants = $('#question_countVariants');
-        $countVariants.change(function () {
-            var $form = $(this).closest('form');
-            var data = {};
-            data[$countVariants.attr('name')] = $countVariants.val();
-            $.ajax({
-                url: $form.attr('action'),
-                type: $form.attr('method'),
-                data: data,
-                success: function (html) {
-                    $('#question_type').parent().html(
-                        $(html).find('#question_type').parent().html()
-                    );
-
-
-                    if($(html).find('#question_answer_1').length === 1) {
-                        for (var j = 1; j <= 10; j++) {
-                            $('#question_answer_' + j).parent().parent().remove();
-                        }
-
-                    }
-
-                    var n = $countVariants.val();
-
-                    for (var i = 1; i <= n; i++) {
-                        $('#question_type').parent().parent().append(
-                            $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
-                        );
-                    }
-
-                }
-            });
-        });
-    </script>
 
 {% endblock %}

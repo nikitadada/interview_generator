@@ -131,25 +131,11 @@ class QuestionController extends BaseController
         $form->handleRequest($request);
 
         if ($this->isValidForm($form)) {
-            $countVariants = $form->get('countVariants')->getData();
-
-            if ($countVariants > 0) {
-                $answers = [];
-
-                for ($i = 1; $i <= $countVariants; $i++) {
-                    $answers[] = $form->get('answer_' . $i)->getData();
-                }
-
-                $question->setAnswers($answers);
-            }
-
             $dm = $this->container->getDocumentManager();
             $dm->persist($question);
             $dm->flush();
 
             if (!is_null($interviewId)) {
-                $this->addFlash('success', 'Вопрос добавлен к опросу');
-
                 $dm = $this->container->getDocumentManager();
                 $interview = $dm->getRepository(Interview::class)->find($interviewId);
 
@@ -158,16 +144,26 @@ class QuestionController extends BaseController
                 $dm->persist($interview);
                 $dm->flush();
 
-                return $this->redirectToRoute('admin_interview_edit', ['id' => $interview->getId()]);
+                if ($isNew) {
+                    $this->addFlash('success', 'Вопрос успешно добавлен');
+                    $template = 'admin_question_edit';
+                } else {
+                    $this->addFlash('success', 'Вопрос успешно обновлен');
+                    $template = 'admin_question_list';
+                }
+
+                return $this->redirectToRoute($template, ['id' => $interview->getId()]);
             }
 
             $this->addFlash('success', 'Вопрос успешно добавлен');
 
-            return $this->redirectToRoute('admin_question_list', ['id' => $question->getId()]);
+            return $this->redirectToRoute('admin_question_edit', ['id' => $question->getId()]);
 
         }
 
-        return $this->render('@Admin/Question/edit.html.twig', [
+        $template = $isNew ? '@Admin/Question/new.html.twig' : '@Admin/Question/edit.html.twig';
+
+        return $this->render($template, [
             'form' => $form->createView(),
             'question' => $question,
             'isNew' => $isNew,

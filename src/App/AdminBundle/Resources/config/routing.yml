@@ -41,3 +41,7 @@ logout:
 _api_interview:
     prefix: /api
     resource: routing/api.yml
+
+_answers:
+    prefix: /answers
+    resource: routing/answers.yml
