@@ -63,7 +63,9 @@
                                         {{ questionMacro.questionType(item.type) }}
                                     </td>
                                     <td>
-                                        {{ item.answers|join(', ') }}
+                                        {% if item.type != 'table' %}
+                                            {{ item.answers|join(', ') }}
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {{ item.createdAt.format('Y-m-d H:i:s') }}

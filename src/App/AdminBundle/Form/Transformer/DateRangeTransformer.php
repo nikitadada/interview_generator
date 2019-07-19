@@ -28,10 +28,8 @@ class DateRangeTransformer implements DataTransformerInterface
         $from = $value->getFrom() ? $value->getFrom()->format($this->format) : '';
         $to = $value->getTo() ? $value->getTo()->format($this->format) : '';
 
-
         return $from . ' - ' . $to;
     }
-
 
     public function reverseTransform($value)
     {

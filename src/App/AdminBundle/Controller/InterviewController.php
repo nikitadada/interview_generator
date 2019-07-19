@@ -72,14 +72,11 @@ class InterviewController extends BaseController
 
             if ($isNew) {
                 $this->addFlash('success', 'Опрос успешно добавлен');
-                $template = 'admin_interview_edit';
             } else {
                 $this->addFlash('success', 'Опрос успешно обновлен');
-                $template = 'admin_interview_list';
             }
 
-            return $this->redirectToRoute($template, ['id' => $interview->getId()]);
-
+            return $this->redirectToRoute('admin_interview_edit', ['id' => $interview->getId()]);
         }
 
         $template = $isNew ? '@Admin/Interview/new.html.twig' : '@Admin/Interview/edit.html.twig';
@@ -102,11 +99,13 @@ class InterviewController extends BaseController
 
         $answers = [];
         foreach ($interview->getQuestions() as $q) {
-            foreach ($q->getAnswers() as $k => $v) {
-                $answers[] = ['id' => $k, 'value' => $v];
+            if($q->getType() != 'table') {
+                foreach ($q->getAnswers() as $k => $v) {
+                    $answers[] = ['id' => $k, 'value' => $v];
+                }
+                $q->setAnswers($answers);
+                $answers = [];
             }
-            $q->setAnswers($answers);
-            $answers = [];
         }
 
         $result = $serializer->serialize($interview, 'json');

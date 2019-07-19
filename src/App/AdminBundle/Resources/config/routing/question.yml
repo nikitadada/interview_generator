@@ -4,9 +4,8 @@ admin_question_edit:
         _controller: AdminBundle:Question:edit
 
 admin_question_new:
-    path: /new
-    defaults:
-        _controller: AdminBundle:Question:new
+    path: /new/{interviewId}
+    defaults:  { _controller: AdminBundle:Question:new, interviewId: 0 }
 
 admin_question_list:
     path: /list
@@ -29,6 +28,6 @@ admin_question_add_to_interview:
         _controller: AdminBundle:Question:addToInterview
 
 admin_question_add_to_interview_from_bank:
-    path: /internal/{id}/add-from-bank/{regions}
+    path: /internal/{id}/add-from-bank
     defaults:
         _controller: AdminBundle:Question:addToInterviewFromBank

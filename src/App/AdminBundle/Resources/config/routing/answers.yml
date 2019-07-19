@@ -3,7 +3,17 @@ admin_answers_form:
     defaults:
         _controller: AdminBundle:Answers:form
 
+admin_answers_table_form:
+    path: /table-form
+    defaults:
+        _controller: AdminBundle:Answers:tableForm
+
 admin_answers_add:
     path: /add/{id}
     defaults:
         _controller: AdminBundle:Answers:add
+
+admin_answers_add_table:
+    path: /add-table/{id}
+    defaults:
+        _controller: AdminBundle:Answers:addTable

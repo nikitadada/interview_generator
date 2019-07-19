@@ -57,11 +57,11 @@ class QuestionController extends BaseController
         ]);
     }
 
-    public function newAction(Request $request)
+    public function newAction(Request $request, $interviewId)
     {
         $question = new Question();
 
-        return $this->edit($request, $question);
+        return $this->edit($request, $question, $interviewId);
     }
 
     public function addToInterviewAction(Request $request)
@@ -76,9 +76,6 @@ class QuestionController extends BaseController
     public function addToInterviewFromBankAction(Request $request)
     {
         $id = $request->get('id');
-        $regions = $request->get('regions');
-        $regions = explode("-", $regions);
-
 
         $dm = $this->container->getDocumentManager();
         $interview = $dm->getRepository(Interview::class)->find($id);
@@ -135,7 +132,7 @@ class QuestionController extends BaseController
             $dm->persist($question);
             $dm->flush();
 
-            if (!is_null($interviewId)) {
+            if (!is_null($interviewId) && $interviewId !== 0) {
                 $dm = $this->container->getDocumentManager();
                 $interview = $dm->getRepository(Interview::class)->find($interviewId);
 
@@ -152,7 +149,11 @@ class QuestionController extends BaseController
                     $template = 'admin_question_list';
                 }
 
-                return $this->redirectToRoute($template, ['id' => $interview->getId()]);
+                return $this->redirectToRoute($template, [
+                        'id' => $question->getId(),
+                        'interviewId' => $interviewId,
+                    ]
+                );
             }
 
             $this->addFlash('success', 'Вопрос успешно добавлен');
@@ -167,6 +168,7 @@ class QuestionController extends BaseController
             'form' => $form->createView(),
             'question' => $question,
             'isNew' => $isNew,
+            'interviewId' => $interviewId,
         ]);
     }
 }

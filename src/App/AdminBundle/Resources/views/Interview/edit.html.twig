@@ -65,7 +65,9 @@
                                         {{ questionMacro.questionType(item.type) }}
                                     </td>
                                     <td>
-                                        {{ item.answers|join(', ') }}
+                                        {% if item.type != 'table' %}
+                                            {{ item.answers|join(', ') }}
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {{ item.createdAt.format('Y-m-d H:i:s') }}
@@ -88,33 +90,24 @@
         </div>
     </div>
 
-
-
-
     <h2>Добавление вопросов</h2>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="x_panel">
                 <div class="x_content">
                     <div class="form-group form-field">
-                        <select multiple class="form-control" id="regions-select">
-                            <option value="all">Общий</option>
-                            {% for region in interview.regions %}
-                                <option value="{{ region.id }}">{{ region.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <br>
-                        <button class="submit btn btn-primary" onclick="getQuestionForm()"><i
-                                    class="fa fa-plus"></i> Добавить новый
-                        </button>
+                        <a href="{{ path('admin_question_new', {'interviewId': interview.id}) }}">
+                            <button class="submit btn btn-primary"><i
+                                        class="fa fa-plus"></i>Добавить новый
+                            </button>
+                        </a>
+
                         <button class="submit btn btn-primary" onclick="getQuestionSuggest()"><i
                                     class="fa fa-plus"></i> Добавить из банка
                         </button>
                         <div class="form-wrapper col-md-12 col-sm-10 col-xs-12">
 
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -122,54 +115,6 @@
     </div>
 
     <script>
-        function getQuestionForm() {
-            $.ajax({
-                url: "/question/internal/form",
-                method: 'GET',
-                data: {},
-            })
-                .done(function (data) {
-                    $('.form-wrapper').html($(data).find('form'));
-
-                    var $countVariants = $('#question_countVariants');
-                    $countVariants.change(function () {
-                        var $form = $(this).parent().closest('form');
-                        $form.attr('action', "{{ '/question/internal/' ~ interview.id ~ '/add' }}");
-
-                        var data = {};
-                        data[$countVariants.attr('name')] = $countVariants.val();
-                        $.ajax({
-                            url: '/question/new',
-                            type: $form.attr('method'),
-                            data: data,
-                            success: function (html) {
-                                $('#question_type').parent().html(
-                                    $(html).find('#question_type').parent().html()
-                                );
-
-                                if ($(html).find('#question_answer_1').length === 1) {
-                                    for (var j = 1; j <= 10; j++) {
-                                        $('#question_answer_' + j).parent().parent().remove();
-                                    }
-                                }
-
-                                var n = $countVariants.val();
-
-                                for (var i = 1; i <= n; i++) {
-                                    $('#question_type').parent().parent().append(
-                                        $(html).find('#question_answer_' + i).parent().css({'margin-top': '10px'}).parent()
-                                    );
-                                }
-
-                            }
-                        });
-                    });
-                })
-                .fail(function () {
-                    console.log('error');
-                })
-        }
-
         function getQuestionSuggest() {
             $.ajax({
                 url: "/question/internal/suggest-form",
@@ -188,7 +133,7 @@
                     });
                     regions = regions.substring(0, regions.length - 1);
 
-                    $form.attr('action', "{{ '/question/internal/' ~ interview.id ~ '/add-from-bank/' }}" + regions);
+                    $form.attr('action', "{{ '/question/internal/' ~ interview.id ~ '/add-from-bank' }}");
                 })
                 .fail(function () {
                     console.log('error');
