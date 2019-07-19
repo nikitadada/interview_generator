@@ -70,13 +70,15 @@ class AnswersController extends BaseController
 
         $values = [];
         foreach ($answers as $k => $v) {
-            $values[] = ['id' => $k, 'value' => $v];
+            if ($v != '') {
+                $values[] = ['id' => $k, 'value' => $v];
+            }
         }
 
         $table[0] = [
             'id' => 0,
             'name' => $title,
-            'values' => $values
+            'values' => $values,
         ];
 
         $dm = $this->container->getDocumentManager();
