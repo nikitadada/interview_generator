@@ -36,8 +36,8 @@ class TableAnswersType extends AbstractType
         $formModifier = function (FormInterface $form, $question = null, $answers = null) {
             if ($question) {
                 for ($i = 1; $i <= intval($question); $i++) {
-                    $form->add('answer_'.$i, TextType::class, [
-                        'label' => 'Вариант ответа_'.$i,
+                    $form->add('answer_' . $i, TextType::class, [
+                        'label' => 'Вариант ответа_' . $i,
                         'mapped' => false,
                         'data' => is_null($answers) ? '' : $answers[$i - 1],
                     ]);
@@ -46,14 +46,14 @@ class TableAnswersType extends AbstractType
             }
         };
 
-//        $builder->addEventListener(
-//            FormEvents::PRE_SET_DATA,
-//            function (FormEvent $event) use ($formModifier) {
-//                $data = $event->getData();
-//
-//                $formModifier($event->getForm(), $data->getCountVariants(), $data->getAnswers());
-//            }
-//        );
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+
+                $formModifier($event->getForm(), $data->getCountVariants(), $data->getAnswers());
+            }
+        );
 
         $builder->get('countVariants')->addEventListener(
             FormEvents::POST_SUBMIT,

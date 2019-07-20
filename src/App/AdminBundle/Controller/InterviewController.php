@@ -2,12 +2,10 @@
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Aggregation\InterviewAggregation;
 use App\AdminBundle\Document\Interview;
 use App\AdminBundle\Filter\InterviewFilter;
 use App\AdminBundle\Form\Interview\InterviewFilterType;
 use App\AdminBundle\Form\Interview\InterviewType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -53,7 +51,6 @@ class InterviewController extends BaseController
 
     private function edit(Request $request, Interview $interview)
     {
-
         $isNew = !$interview->getId();
 
         $questionFormClass = InterviewType::class;
@@ -64,17 +61,12 @@ class InterviewController extends BaseController
 
         $form->handleRequest($request);
 
-
         if ($this->isValidForm($form)) {
             $dm = $this->container->getDocumentManager();
             $dm->persist($interview);
             $dm->flush();
 
-            if ($isNew) {
-                $this->addFlash('success', 'Опрос успешно добавлен');
-            } else {
-                $this->addFlash('success', 'Опрос успешно обновлен');
-            }
+            $this->addFlash('success', 'Опрос успешно добавлен');
 
             return $this->redirectToRoute('admin_interview_edit', ['id' => $interview->getId()]);
         }
@@ -99,13 +91,11 @@ class InterviewController extends BaseController
 
         $answers = [];
         foreach ($interview->getQuestions() as $q) {
-            if($q->getType() != 'table') {
-                foreach ($q->getAnswers() as $k => $v) {
-                    $answers[] = ['id' => $k, 'value' => $v];
-                }
-                $q->setAnswers($answers);
-                $answers = [];
+            foreach ($q->getAnswers() as $k => $v) {
+                $answers[] = ['id' => $k, 'value' => $v];
             }
+            $q->setAnswers($answers);
+            $answers = [];
         }
 
         $result = $serializer->serialize($interview, 'json');

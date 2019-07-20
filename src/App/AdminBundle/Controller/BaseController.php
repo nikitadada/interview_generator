@@ -4,7 +4,6 @@ namespace App\AdminBundle\Controller;
 
 use App\AdminBundle\Container\ContainerWrapper;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
@@ -46,12 +45,6 @@ class BaseController extends Controller
         return $builder->getForm();
     }
 
-    /**
-     * @param $target
-     * @param int $limit
-     * @param array $options
-     * @return SlidingPagination
-     */
     protected function paginate($target, $limit = 50, array $options = [])
     {
         $options = array_merge([

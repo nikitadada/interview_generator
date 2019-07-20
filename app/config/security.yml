@@ -23,4 +23,4 @@ security:
                 always_remember_me: true
     access_control:
         - { path: ^/(login|register|recover|api), roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_ADMIN }

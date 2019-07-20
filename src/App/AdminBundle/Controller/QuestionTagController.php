@@ -2,7 +2,6 @@
 
 namespace App\AdminBundle\Controller;
 
-
 use App\AdminBundle\Document\QuestionTag;
 use App\AdminBundle\Form\QuestionTagType;
 use Symfony\Component\HttpFoundation\Request;

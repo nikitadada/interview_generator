@@ -132,7 +132,7 @@ class QuestionController extends BaseController
             $dm->persist($question);
             $dm->flush();
 
-            if (!is_null($interviewId) && $interviewId !== 0) {
+            if (!is_null($interviewId)) {
                 $dm = $this->container->getDocumentManager();
                 $interview = $dm->getRepository(Interview::class)->find($interviewId);
 
@@ -159,7 +159,6 @@ class QuestionController extends BaseController
             $this->addFlash('success', 'Вопрос успешно добавлен');
 
             return $this->redirectToRoute('admin_question_edit', ['id' => $question->getId()]);
-
         }
 
         $template = $isNew ? '@Admin/Question/new.html.twig' : '@Admin/Question/edit.html.twig';

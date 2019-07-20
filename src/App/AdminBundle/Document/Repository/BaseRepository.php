@@ -12,10 +12,6 @@ class BaseRepository extends DocumentRepository
         $builder->equals(new \MongoRegex('/' . preg_quote($text) . '/i'));
     }
 
-    /**
-     * @return \Doctrine\MongoDB\Collection
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
-     */
     public function getCollection()
     {
         return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());

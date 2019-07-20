@@ -2,7 +2,6 @@
 
 namespace App\AdminBundle\Container;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerWrapper
@@ -34,9 +33,6 @@ class ContainerWrapper
         return $this->get('doctrine_mongodb');
     }
 
-    /**
-     * @return DocumentManager
-     */
     public function getDocumentManager()
     {
         return $this->getMongo()->getManager();

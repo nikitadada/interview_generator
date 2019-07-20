@@ -23,11 +23,9 @@ class SecurityController extends BaseController
 
     public function loginCheckAction()
     {
-
     }
 
     public function logoutAction()
     {
-
     }
 }

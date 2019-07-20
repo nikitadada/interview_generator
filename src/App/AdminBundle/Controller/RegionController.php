@@ -2,7 +2,6 @@
 
 namespace App\AdminBundle\Controller;
 
-
 use App\AdminBundle\Document\Region;
 use App\AdminBundle\Form\RegionType;
 use Symfony\Component\HttpFoundation\Request;

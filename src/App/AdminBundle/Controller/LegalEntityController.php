@@ -2,7 +2,6 @@
 
 namespace App\AdminBundle\Controller;
 
-
 use App\AdminBundle\Document\LegalEntity;
 use App\AdminBundle\Form\LegalEntityType;
 use Symfony\Component\HttpFoundation\Request;
