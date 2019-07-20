@@ -61,7 +61,6 @@ class AnswersController extends BaseController
 
     }
 
-
     public function addTableAction(Request $request)
     {
         $id = $request->get('id');
@@ -75,16 +74,21 @@ class AnswersController extends BaseController
             }
         }
 
-        $table[0] = [
-            'id' => 0,
-            'name' => $title,
-            'values' => $values,
-        ];
-
         $dm = $this->container->getDocumentManager();
         $question = $dm->getRepository(Question::class)->find($id);
 
         $oldAnswers = $question->getAnswers();
+
+        $index = 0;
+        if ($oldAnswers) {
+            $index = count($oldAnswers);
+        }
+
+        $table[0] = [
+            'id' => $index,
+            'name' => $title,
+            'values' => $values,
+        ];
 
         if (!is_null($oldAnswers)) {
             $answers = array_merge($oldAnswers, $table);
